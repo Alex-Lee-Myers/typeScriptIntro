@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "noImplicitAny": false,
+    "sourceMap": false,
+    "watch": true,
+    "outDir": "build",
+    "strictNullChecks": true
+  }
+}
