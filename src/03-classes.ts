@@ -47,7 +47,11 @@ class Person {
     lastName: string;
 
     //2
-    sayHello() {
+    sayHelloToFirstname() {
+        return "Hello " + this.firstName;
+    }
+
+    sayHelloToFullname() {
         //3
         return "Hello " + this.firstName + " " + this.lastName;
     }
@@ -59,7 +63,7 @@ let kenn: Person = new Person();
 //5
 kenn.firstName = "Kenn";
 //6
-kenn.sayHello(); //"Hello Kenn"
+kenn.sayHelloToFirstname(); //"Hello Kenn"
 
 //* Analysis
     // 1) These two variables are the properties of the class. They should be above the methods.
@@ -79,3 +83,165 @@ kenn.sayHello(); //"Hello Kenn"
     // 4) Call the sayHelloToFullname method on the instance of the class.
     // 5) Print the result to the console.
 
+let sherrif: Person = new Person();
+sherrif.firstName = "Sheriff";
+sherrif.lastName = "Holler";
+sherrif.sayHelloToFullname();
+console.log(sherrif.sayHelloToFullname()); //"Hello Sheriff Holler"
+
+
+//! Contstructors
+class Game {
+    name: string;
+    maker: string;
+
+    constructor(name: string, maker: string) {
+        this.name = name;
+        this.maker = maker;
+    }
+}
+let battleShip: Game = new Game("Battle Ship", "Hasbro");
+//* Below is instantiating the class with no constructor. Then we have to set the properties manually. Constructor? One line of code.
+// let monopoly: GameWithoutConstructor = new GameWithoutConstructor();
+// monopoly.gameName = 'Monopoly';
+// monopoly.gameMaker = 'Hasbro';
+
+class Vehicle {
+    type: string;
+    make: string;
+    model: string;
+    manufactureYear: number;
+    runs: boolean;
+    topSpeed: number;
+}
+let tesla : Automobile
+//* Example One
+class Automobile extends Vehicle {
+    isSelfDriving: boolean;
+}
+
+let myCar: Automobile = new Automobile();
+myCar.isSelfDriving = false;
+myCar.topSpeed = 200;
+myCar.make = "Volvo";
+// Example Two
+                //1
+class Motorcycle extends Vehicle {
+    easyToDoWheelie: boolean;
+}
+
+let myMotorcycle: Motorcycle = new Motorcycle();
+myMotorcycle.easyToDoWheelie = true; //2
+myMotorcycle.topSpeed = 180; //3
+
+//* Analysis
+    // 1) The "extends" keyword declares that the class is going to inherit all of the properties and methods from another class. This is called subclassing. Both "Motorcycle" and "Automobile" inherit from "Vehicle".
+    // 2) Note that these are properties declared in the subclass. The Motorcycle class does not have access to the "isSelfDriving" property and the "Automobile" class does not have access to "easyToDoWheelie".
+    // 3) These are properties from the parent class, the "Vehicle" class. They are inherited properties.
+class UserApiResObj {
+    id: number;
+    username: string;
+}
+// ----> Inject the UserApiResObj class into class Comments.user: UserApiResObj.
+class Comments {
+    id: number;
+    text: string;
+    user: UserApiResObj;
+}
+
+//! PRACTICE
+// 1) Create a class called "Animal" with 3 properties: type, breed, and age.
+// 2) Create two subclasses, Bear and Tiger, that each has a property unique.
+// 3) Instantiate both classes and add values for properties to each.
+
+class Animal {
+    type: string;
+    breed: string;
+    age: number;
+}
+
+class Bear extends Animal {
+    unique: string;
+}
+
+class Tiger extends Animal {
+    unique: string;
+}
+
+let myBear: Bear = new Bear();
+myBear.type = "Bear";
+myBear.breed = "Grizzly";
+myBear.age = 3;
+myBear.unique = "Grizzly Bear";
+
+let myTiger: Tiger = new Tiger();
+myTiger.type = "Tiger";
+myTiger.breed = "Bengal";
+myTiger.age = 2;
+myTiger.unique = "Bengal Tiger";
+//! End of Practice
+
+// 2.12 - Parameter Properties
+//* Overview
+    // Parameter properties allow us to make our classes even more streamlined by allowing us to declare property types and accessors in our constructor parameters.
+
+//* class Store {
+//     constructor(name: string, city: string) {
+//         this.name = name;
+//         this.city = city;
+//     }
+//     name: string;
+//     city: string;
+// }
+
+// let ikea: Store = new Store('Ikea', 'Fishers');
+
+//* One of the most elegant augmentations that TypeScript has made comes with parameter properties. The pattern above has become quite common over the years, and we can now use TypeScript to streamline a lot of the code above in our constructor.
+
+//* Let's refactor the code above for line 188 to the following:
+class Store {
+    constructor(public name: string, public city: string) {
+    }
+}
+
+let ikea: Store = new Store('Ikea', 'Fishers');
+
+
+//* Analysis
+//Again, the code above is a shortified version of the first version of the Store class. Let's look at a few things:
+    // 1) We add a public accessor. We'll talk about this in the next module. For now, know that it's required for this approach.
+    // 2) With this approach, we don't have to do all of the bindings for our properties inside of our constructor. We don't need this.name = name; this.city = city;
+//TypeScript infers that there is a property called a name that will be the value of the argument that is passed into the constructor.
+
+//Note: This type of constructor is used in almost every Angular component that you'll see these days.
+
+//* Accessors
+//* Overview
+    // JavaScript has public and private accessors, but they are taken care of in the constructor. Take a look here (Links to an external site.) for a review with Douglas Crockford.
+    // TypeScript has brought us more explicit keywords for determining the accessibility of a member using the "private" and "public" keywords. In terms of classes, this allows us to keep certain members private to the class for internal use.
+
+class Employee extends Person{
+    private _salary: number;
+
+    getSalary(): string {
+        return this._salary.toString();
+    }
+
+    setSalary(newSalary: number) {
+        this._salary = newSalary;
+    }
+}
+
+let newEmployee: Employee = new Employee();
+newEmployee.setSalary(30000);
+//newEmployee._salary = 0; //This breaks
+let salaryResult: string = newEmployee.getSalary();
+console.log("The salary is: " + salaryResult); //"The salary is: 30000"
+
+//* Analysis
+    // 1) The "private" keyword is used to declare a property that is only accessible within the class.
+    // 2) We have a class called Employee that extends "Person".
+    // 3) We create a private property, denoted by the "private" keyword.
+    // 4) It is common practice to see private properties in classes start with an underscore. This is not required. It is just a common convention.
+    // 5) We have a method called "setSalary" that takes in a number. It sets the value of the private property to the value that is passed in as an argument. These are both number types.
+    // 6) We have a method called  that returns a string. Inside the method, we perform so low-level business logic of converting the salary number value to a string in the return statement.
