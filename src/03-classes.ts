@@ -223,8 +223,8 @@ let ikea: Store = new Store('Ikea', 'Fishers');
 class Employee extends Person{
     private _salary: number;
 
-    getSalary(): string {
-        return this._salary.toString();
+    getSalary(): number {
+        return this._salary;
     }
 
     setSalary(newSalary: number) {
@@ -235,7 +235,7 @@ class Employee extends Person{
 let newEmployee: Employee = new Employee();
 newEmployee.setSalary(30000);
 //newEmployee._salary = 0; //This breaks
-let salaryResult: string = newEmployee.getSalary();
+let salaryResult: number = newEmployee.getSalary();
 console.log("The salary is: " + salaryResult); //"The salary is: 30000"
 
 //* Analysis
